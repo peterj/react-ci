@@ -6,12 +6,8 @@ services:
 language: node_js
 node_js:
   - 8
-env:
-  global:
-    - DOCKER_REPO=pj3677
-    - DOCKER_IMAGE=testreactapp
 
-before_install: docker build -t "$DOCKER_REPO"/"$DOCKER_IMAGE" .
+script: docker build -t $DOCKER_REPO/$DOCKER_IMAGE .
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
