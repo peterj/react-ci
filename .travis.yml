@@ -6,9 +6,9 @@ services:
 language: node_js
 node_js:
   - 8
-before_install: docker build -t $DOCKER_REPO/$DOCKER_IMAGE .
+before_install: docker build -t "$DOCKER_REPO"/"$DOCKER_IMAGE" .
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    docker tag $DOCKER_REPO/$DOCKER_IMAGE $DOCKER_REPO/$DOCKER_IMAGE:$TRAVIS_COMMIT
-    docker push $DOCKER_REPO/$DOCKER_IMAGE:$TRAVIS_COMMIT
+    docker tag "$DOCKER_REPO"/"$DOCKER_IMAGE" "$DOCKER_REPO"/"$DOCKER_IMAGE":"$TRAVIS_COMMIT"
+    docker push "$DOCKER_REPO"/"$DOCKER_IMAGE":"$TRAVIS_COMMIT"
