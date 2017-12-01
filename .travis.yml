@@ -1,8 +1,14 @@
+sudo: required
+
+services:
+- docker
+
 language: node_js
 node_js:
   - 8
-cache:
-  directories:
-  - node_modules
-install: npm install
-script: npm run build
+before_install: docker build -t $DOCKER_REPO/$DOCKER_IMAGE .
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    docker tag $DOCKER_REPO/$DOCKER_IMAGE $DOCKER_REPO/$DOCKER_IMAGE:$TRAVIS_COMMIT
+    docker push $DOCKER_REPO/$DOCKER_IMAGE:$TRAVIS_COMMIT
